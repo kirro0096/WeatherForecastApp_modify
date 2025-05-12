@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,9 +33,16 @@ public class WeatherForecastApp {
      */
     public static void main(String[] args) {
         try {
-            // web APIを呼び出す
-            // HttpURLConnectionを使ってGETリクエストを送信する
-            URL url = new URL(TARGET_URL);
+            // URIを介してURLを生成
+            URL url;
+            try {
+                URI uri = new URI(TARGET_URL); // URIオブジェクトを生成
+                url = uri.toURL(); // URIからURLに変換
+            } catch (Exception e) { // URISyntaxExceptionまたはMalformedURLExceptionをキャッチ
+                System.out.println("URIまたはURLの形式が無効です: " + TARGET_URL);
+                return; // 処理を中断
+            }
+
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
