@@ -1,0 +1,33 @@
+classDiagram
+    class WeatherForecastApp {
+        - static final String TARGET_URL
+        + main(String[] args)
+    }
+
+    class WeatherApiClient {
+        - String apiUrl
+        + WeatherApiClient(String apiUrl)
+        + fetchWeatherData() String
+    }
+
+    class WeatherDataParser {
+        + parse(String jsonData) List<WeatherInfo>
+    }
+
+    class WeatherDisplay {
+        + display(List<WeatherInfo> weatherInfoList)
+    }
+
+    class WeatherInfo {
+        - String time
+        - String weather
+        + WeatherInfo(String time, String weather)
+        + getTime() String
+        + getWeather() String
+    }
+
+    WeatherForecastApp --> WeatherApiClient
+    WeatherForecastApp --> WeatherDataParser
+    WeatherForecastApp --> WeatherDisplay
+    WeatherDataParser --> WeatherInfo
+    WeatherDisplay --> WeatherInfo

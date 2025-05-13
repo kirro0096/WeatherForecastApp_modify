@@ -1,16 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * 天気予報アプリ - 本体
@@ -20,6 +8,7 @@ import org.json.JSONObject;
  * @version 1.0
  */
 public class WeatherForecastApp {
+
     /**
      * 気諸王朝の天気予報APIのエンドポイントURL
      * 大阪府の天気予報データを提供します
@@ -32,68 +21,16 @@ public class WeatherForecastApp {
      * @param args コマンドライン引数(使用しません)
      */
     public static void main(String[] args) {
+        WeatherApiClient apiClient = new WeatherApiClient(TARGET_URL);
+        WeatherDataParser parser = new WeatherDataParser();
+        WeatherDisplay display = new WeatherDisplay();
+
         try {
-            // URIを介してURLを生成
-            URL url;
-            try {
-                URI uri = new URI(TARGET_URL); // URIオブジェクトを生成
-                url = uri.toURL(); // URIからURLに変換
-            } catch (Exception e) { // URISyntaxExceptionまたはMalformedURLExceptionをキャッチ
-                System.out.println("URIまたはURLの形式が無効です: " + TARGET_URL);
-                return; // 処理を中断
-            }
-
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            // レスポンスコードがOKかどうかを確認する
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // レスポンスボディを取得する
-                StringBuilder responseBody = new StringBuilder();
-                try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
-                    String Line;
-                    while ((Line = reader.readLine()) != null) {
-                        responseBody.append(Line);
-                    }
-                }
-
-                // JSONデータを解析する
-                JSONArray rootArray = new JSONArray(responseBody.toString());
-                JSONObject timeStringObject = rootArray.getJSONObject(0)
-                        .getJSONArray("timeSeries").getJSONObject(0);
-
-                List<String> timeDefines = new ArrayList<>();
-                List<String> weathers = new ArrayList<>();
-
-                // 日時と天気情報を抽出する
-                JSONArray timeDefinesArray = timeStringObject.getJSONArray("timeDefines");
-                JSONArray weathersArray = timeStringObject.getJSONArray("areas").getJSONObject(0)
-                        .getJSONArray("weathers");
-
-                // 日時と天気情報のリストを作成する
-                for (int i = 0; i < timeDefinesArray.length(); i++) {
-                    timeDefines.add(timeDefinesArray.getString(i));
-                    weathers.add(weathersArray.getString(i));
-                }
-
-                // 日時と天気情報を表示する
-                for (int i = 0; i < Math.min(timeDefines.size(), weathers.size()); i++) {
-                    LocalDateTime dateTime = LocalDateTime.parse(
-                            timeDefines.get(i),
-                            DateTimeFormatter.ISO_DATE_TIME);
-                    System.out.println(
-                            dateTime.format(
-                                    DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "" + weathers.get(i));
-                }
-            } else {
-                // レスポンスコードがOK出ない場合のエラー処理
-                System.out.println("データの取得に失敗しました!");
-            }
-        } catch (IOException e) {
-            // IO例外を処理する
-            e.printStackTrace();
+            String jsonData = apiClient.fetchWeatherData();
+            List<WeatherInfo> weatherInfoList = parser.parse(jsonData);
+            display.display(weatherInfoList);
+        } catch (Exception e) {
+            System.out.println("エラーが発生しました: " + e.getMessage());
         }
     }
 }
