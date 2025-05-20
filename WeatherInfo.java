@@ -16,4 +16,3 @@ public class WeatherInfo {
         return weather;
     }
 }
-//ちょっす
