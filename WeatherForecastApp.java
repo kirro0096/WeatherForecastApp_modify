@@ -3,7 +3,7 @@ import java.util.List;
 /**
  * 天気予報アプリ - 本体
  * このアプリケーションは、気象庁のweb APIから大阪府の天気予報データを取得して表示します
- * 
+ * 覚悟を決めた確認
  * @author n.katayama
  * @version 1.0
  */
