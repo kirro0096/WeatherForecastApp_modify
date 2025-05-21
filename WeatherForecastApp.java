@@ -12,6 +12,7 @@ public class WeatherForecastApp {
     /**
      * 気諸王朝の天気予報APIのエンドポイントURL
      * 大阪府の天気予報データを提供します
+     *確認さぎょウ
      */
     private static final String TARGET_URL = "https://www.jma.go.jp/bosai/forecast/data/forecast/270000.json";// 天気予報APIのURL(大阪府)
 
