@@ -17,12 +17,14 @@ public class WeatherDataParser {
         JSONObject areaObject = timeSeriesObject.getJSONArray("areas").getJSONObject(0);
         JSONArray weathersArray = areaObject.getJSONArray("weathers");
         JSONArray wavesArray = areaObject.getJSONArray("waves");
+        JSONArray windsArray = areaObject.getJSONArray("winds");
 
         for (int i = 0; i < timeDefinesArray.length(); i++) {
             String time = timeDefinesArray.getString(i);
             String weather = weathersArray.getString(i);
             String waves = wavesArray.getString(i);
-            weatherInfoList.add(new WeatherInfo(time, weather, waves));
+            String windds = windsArray.getString(i);
+            weatherInfoList.add(new WeatherInfo(time, weather, waves, windds));
         }
 
         return weatherInfoList;
