@@ -47,7 +47,8 @@ public class WeatherForecastApp {
                 writer.write(
                         "<style>table{border-collapse:collapse;}td,th{border:1px solid #ccc;padding:8px;}</style>\n");
                 writer.write("</head><body>\n<h1>天気予報</h1>\n");
-                writer.write("<h2>大阪府</h2>\n<table>\n<tr><th>日付</th><th>天気</th><th>波</th><th>風</th></tr>\n");
+                writer.write(
+                        "<h2>大阪府</h2>\n<table>\n<tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th></tr>\n");
                 for (WeatherInfo info : weatherInfoList) {
                     String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter).format(outputFormatter);
                     writer.write("<tr>");
@@ -55,6 +56,7 @@ public class WeatherForecastApp {
                     writer.write("<td>" + info.getWeather() + "</td>");
                     writer.write("<td>" + info.getWaves() + "</td>");
                     writer.write("<td>" + info.getwinds() + "</td>");
+                    writer.write("<td>" + (info.getMintemps() != null ? info.getMintemps() : "-") + "</td>");
                     writer.write("</tr>\n");
                 }
                 writer.write("</table>\n");
@@ -86,7 +88,7 @@ public class WeatherForecastApp {
                             if (hasWave) {
                                 writer.write("<th>波</th>");
                             }
-                            writer.write("<th>風</th></tr>\n");
+                            writer.write("<th>風</th><th>最低気温</th></tr>\n");
                             for (WeatherInfo info : areaWeatherInfoList) {
                                 String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter)
                                         .format(outputFormatter);
@@ -97,6 +99,8 @@ public class WeatherForecastApp {
                                     writer.write("<td>" + info.getWaves() + "</td>");
                                 }
                                 writer.write("<td>" + info.getwinds() + "</td>");
+                                writer.write(
+                                        "<td>" + (info.getMintemps() != null ? info.getMintemps() : "-") + "</td>");
                                 writer.write("</tr>\n");
                             }
                             writer.write("</table>\n");
@@ -116,7 +120,7 @@ public class WeatherForecastApp {
                         if (hasWave) {
                             writer.write("<th>波</th>");
                         }
-                        writer.write("<th>風</th></tr>\n");
+                        writer.write("<th>風</th><th>最低気温</th></tr>\n");
                         for (WeatherInfo info : prefWeatherInfoList) {
                             String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter)
                                     .format(outputFormatter);
@@ -127,6 +131,7 @@ public class WeatherForecastApp {
                                 writer.write("<td>" + info.getWaves() + "</td>");
                             }
                             writer.write("<td>" + info.getwinds() + "</td>");
+                            writer.write("<td>" + (info.getMintemps() != null ? info.getMintemps() : "-") + "</td>");
                             writer.write("</tr>\n");
                         }
                         writer.write("</table>\n");
