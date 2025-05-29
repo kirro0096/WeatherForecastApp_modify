@@ -10,7 +10,7 @@ public class WeatherDisplay {
 
         for (WeatherInfo info : weatherInfoList) {
             LocalDateTime dateTime = LocalDateTime.parse(info.getTime(), inputFormatter);
-            System.out.println(dateTime.format(outputFormatter) + " " + info.getWeather() + " 波: " + info.getWaves());
+            System.out.println(dateTime.format(outputFormatter) + " " + info.getWeather() + " 波: " + info.getWaves()+"最低気温"+info.getMintemps()+"°C");
         }
     }
 }
