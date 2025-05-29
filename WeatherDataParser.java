@@ -16,6 +16,7 @@ public class WeatherDataParser {
         JSONObject areaObject = timeSeriesObject.getJSONArray("areas").getJSONObject(0);
         JSONArray weathersArray = areaObject.getJSONArray("weathers");
         JSONArray wavesArray = areaObject.getJSONArray("waves");
+        JSONArray windsArray = areaObject.getJSONArray("winds");
 
         JSONObject timeSeriesObject2 = rootArray.getJSONObject(1)
                 .getJSONArray("timeSeries").getJSONObject(1);
@@ -25,8 +26,9 @@ public class WeatherDataParser {
             String time = timeDefinesArray.getString(i);
             String weather = weathersArray.getString(i);
             String waves = wavesArray.getString(i);
+            String windds = windsArray.getString(i);
             String Mintemps = MintempsArray.getString(i+1);
-            weatherInfoList.add(new WeatherInfo(time, weather, waves,Mintemps));
+            weatherInfoList.add(new WeatherInfo(time, weather, waves,windds,Mintemps));
         }
 
         return weatherInfoList;

@@ -3,13 +3,15 @@ public class WeatherInfo {
     private final String time;
     private final String weather;
     private final String waves;
+    private final String winds;
     private final String Mintemps;
 
-    public WeatherInfo(String time, String weather, String waves, String Mintemps) {
+    public WeatherInfo(String time, String weather, String waves, String winds,String Mintemps) {
         this.time = time;
         this.weather = weather;
         this.waves = waves;
         this.Mintemps = Mintemps;
+        this.winds = winds;
     }
 
     public String getTime() {
@@ -26,5 +28,8 @@ public class WeatherInfo {
 
     public String getMintemps() {
         return Mintemps;
+    }
+    public String getwinds() {
+        return winds;
     }
 }
