@@ -182,6 +182,12 @@ public class WeatherForecastApp {
             } catch (IOException e) {
                 System.out.println("HTMLファイルの書き込みに失敗しました: " + e.getMessage());
             }
+            // weather.htmlを書き終えた直後にブラウザで自動表示
+            try {
+                java.awt.Desktop.getDesktop().browse(new java.io.File("weather.html").toURI());
+            } catch (Exception e) {
+                System.out.println("ブラウザの自動起動に失敗しました: " + e.getMessage());
+            }
 
         } catch (Exception e) {
             System.out.println("エラーが発生しました: " + e.getMessage());
