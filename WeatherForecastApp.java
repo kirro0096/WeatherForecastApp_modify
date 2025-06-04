@@ -46,8 +46,40 @@ public class WeatherForecastApp {
                 writer.write("<title>天気予報</title>\n");
                 writer.write(
                         "<style>table{border-collapse:collapse;}td,th{border:1px solid #ccc;padding:8px;}</style>\n");
+                // JavaScript追加
+                writer.write(
+                        "<script>\n" +
+                                "function toggleColumn(colName) {\n" +
+                                "  var tbls = document.getElementsByTagName('table');\n" +
+                                "  for (var t=0; t<tbls.length; t++) {\n" +
+                                "    var header = tbls[t].rows[0];\n" +
+                                "    var realCol = -1;\n" +
+                                "    for (var c=0; c<header.cells.length; c++) {\n" +
+                                "      if (header.cells[c].innerText === colName) { realCol = c; break; }\n" +
+                                "    }\n" +
+                                "    if (realCol === -1) continue;\n" +
+                                "    var rows = tbls[t].rows;\n" +
+                                "    for (var i = 0; i < rows.length; i++) {\n" +
+                                "      if (rows[i].cells.length > realCol) {\n" +
+                                "        rows[i].cells[realCol].style.display = rows[i].cells[realCol].style.display === 'none' ? '' : 'none';\n"
+                                +
+                                "      }\n" +
+                                "    }\n" +
+                                "  }\n" +
+                                "}\n" +
+                                "</script>\n");
                 writer.write("</head><body>\n<h1>天気予報</h1>\n");
-                writer.write("<h2>大阪府</h2>\n<table>\n<tr><th>日付</th><th>天気</th><th>波</th><th>風</th></tr>\n");
+                // チェックボックス追加
+                writer.write(
+                        "<div style='margin-bottom:10px;'>"
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('日付')\">日付</label> "
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('天気')\">天気</label> "
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('波')\">波</label> "
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('風')\">風</label> "
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('最低気温')\">最低気温</label>"
+                                + "</div>\n");
+                writer.write(
+                        "<h2>大阪府</h2>\n<table>\n<tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>\n");
                 for (WeatherInfo info : weatherInfoList) {
                     String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter).format(outputFormatter);
                     writer.write("<tr>");
@@ -55,6 +87,8 @@ public class WeatherForecastApp {
                     writer.write("<td>" + info.getWeather() + "</td>");
                     writer.write("<td>" + info.getWaves() + "</td>");
                     writer.write("<td>" + info.getwinds() + "</td>");
+                    writer.write("<td>" + (info.getMintemps() != null ? info.getMintemps() : "-") + "</td>");
+                    writer.write("<td>" + (info.getPops() != null ? info.getPops() : "-") + "%</td>");
                     writer.write("</tr>\n");
                 }
                 writer.write("</table>\n");
@@ -84,9 +118,12 @@ public class WeatherForecastApp {
                             }
                             writer.write("<h2>" + areaTitle + "</h2>\n<table>\n<tr><th>日付</th><th>天気</th>");
                             if (hasWave) {
-                                writer.write("<th>波</th>");
+                                writer.write("<th>波</th><th>風</th>");
+                            } else {
+                                writer.write("<th>風</th>");
                             }
-                            writer.write("<th>風</th></tr>\n");
+
+                            writer.write("<th>風</th><th>最低気温</th><th>降水確率</th></tr>\n");
                             for (WeatherInfo info : areaWeatherInfoList) {
                                 String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter)
                                         .format(outputFormatter);
@@ -97,6 +134,9 @@ public class WeatherForecastApp {
                                     writer.write("<td>" + info.getWaves() + "</td>");
                                 }
                                 writer.write("<td>" + info.getwinds() + "</td>");
+                                writer.write(
+                                        "<td>" + (info.getMintemps() != null ? info.getMintemps() : "-") + "</td>");
+                                writer.write("<td>" + (info.getPops() != null ? info.getPops() : "-") + "%</td>");
                                 writer.write("</tr>\n");
                             }
                             writer.write("</table>\n");
@@ -116,7 +156,7 @@ public class WeatherForecastApp {
                         if (hasWave) {
                             writer.write("<th>波</th>");
                         }
-                        writer.write("<th>風</th></tr>\n");
+                        writer.write("<th>風</th><th>最低気温</th><th>降水確率</th></tr>\n");
                         for (WeatherInfo info : prefWeatherInfoList) {
                             String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter)
                                     .format(outputFormatter);
@@ -127,6 +167,8 @@ public class WeatherForecastApp {
                                 writer.write("<td>" + info.getWaves() + "</td>");
                             }
                             writer.write("<td>" + info.getwinds() + "</td>");
+                            writer.write("<td>" + (info.getMintemps() != null ? info.getMintemps() : "-") + "</td>");
+                            writer.write("<td>" + (info.getPops() != null ? info.getPops() : "-") + "%</td>");
                             writer.write("</tr>\n");
                         }
                         writer.write("</table>\n");
@@ -176,6 +218,12 @@ public class WeatherForecastApp {
                 writer.write("</body></html>");
             } catch (IOException e) {
                 System.out.println("HTMLファイルの書き込みに失敗しました: " + e.getMessage());
+            }
+            // weather.htmlを書き終えた直後にブラウザで自動表示
+            try {
+                java.awt.Desktop.getDesktop().browse(new java.io.File("weather.html").toURI());
+            } catch (Exception e) {
+                System.out.println("ブラウザの自動起動に失敗しました: " + e.getMessage());
             }
 
         } catch (Exception e) {
