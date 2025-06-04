@@ -249,4 +249,4 @@ public class WeatherForecastApp {
             System.out.println("エラーが発生しました: " + e.getMessage());
         }
     }
-}
+}//てすと
