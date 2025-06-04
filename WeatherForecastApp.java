@@ -76,10 +76,19 @@ public class WeatherForecastApp {
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('天気')\">天気</label> "
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('波')\">波</label> "
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('風')\">風</label> "
-                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('最低気温')\">最低気温</label>"
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('最低気温')\">最低気温</label> "
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('降水確率')\">降水確率</label>"
+                                + "</div>\n");
+                // 県名ジャンプ用目次リンクを追加
+                writer.write(
+                        "<div style='margin-bottom:15px;'><b>都道府県ジャンプ：</b>"
+                                + "<a href='#osaka'>大阪府</a> | "
+                                + "<a href='#shiga-nanbu'>滋賀県南部</a> | <a href='#shiga-hokubu'>滋賀県北部</a> | "
+                                + "<a href='#kyoto-nanbu'>京都府南部</a> | <a href='#kyoto-hokubu'>京都府北部</a> | "
+                                + "<a href='#hyogo'>兵庫県</a> | <a href='#nara'>奈良県</a> | <a href='#wakayama'>和歌山県</a>"
                                 + "</div>\n");
                 writer.write(
-                        "<h2>大阪府</h2>\n<table>\n<tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>\n");
+                        "<h2 id='osaka'>大阪府</h2>\n<table>\n<tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>\n");
                 for (WeatherInfo info : weatherInfoList) {
                     String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter).format(outputFormatter);
                     writer.write("<tr>");
@@ -116,14 +125,17 @@ public class WeatherForecastApp {
                                     break;
                                 }
                             }
-                            writer.write("<h2>" + areaTitle + "</h2>\n<table>\n<tr><th>日付</th><th>天気</th>");
+                            // id生成（例: shiga-nanbu, kyoto-hokubu）
+                            String id = (prefName.equals("滋賀県") ? "shiga" : "kyoto")
+                                    + (area.contains("南部") ? "-nanbu" : "-hokubu");
+                            writer.write(
+                                    "<h2 id='" + id + "'>" + areaTitle + "</h2>\n<table>\n<tr><th>日付</th><th>天気</th>");
                             if (hasWave) {
                                 writer.write("<th>波</th><th>風</th>");
                             } else {
                                 writer.write("<th>風</th>");
                             }
-
-                            writer.write("<th>風</th><th>最低気温</th><th>降水確率</th></tr>\n");
+                            writer.write("<th>最低気温</th><th>降水確率</th></tr>\n");
                             for (WeatherInfo info : areaWeatherInfoList) {
                                 String formattedDate = OffsetDateTime.parse(info.getTime(), inputFormatter)
                                         .format(outputFormatter);
@@ -152,7 +164,14 @@ public class WeatherForecastApp {
                                 break;
                             }
                         }
-                        writer.write("<h2>" + prefName + "</h2>\n<table>\n<tr><th>日付</th><th>天気</th>");
+                        String id = "";
+                        if (prefName.equals("兵庫県"))
+                            id = "hyogo";
+                        else if (prefName.equals("奈良県"))
+                            id = "nara";
+                        else if (prefName.equals("和歌山県"))
+                            id = "wakayama";
+                        writer.write("<h2 id='" + id + "'>" + prefName + "</h2>\n<table>\n<tr><th>日付</th><th>天気</th>");
                         if (hasWave) {
                             writer.write("<th>波</th>");
                         }
