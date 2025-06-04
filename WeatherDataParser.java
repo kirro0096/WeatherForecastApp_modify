@@ -41,6 +41,27 @@ public class WeatherDataParser {
         } catch (Exception e) {
             // 何もしない（MintempsArrayは空のまま）
         }
+        // ---降水確率取得ロジックを追加---
+        JSONArray popsArray = new JSONArray();
+        try {
+            for (int idx = 0; idx < rootArray.length(); idx++) {
+                JSONArray tsArr = rootArray.getJSONObject(idx).getJSONArray("timeSeries");
+                for (int ts = 0; ts < tsArr.length(); ts++) {
+                    JSONObject tsObj = tsArr.getJSONObject(ts);
+                    if (tsObj.has("areas")) {
+                        JSONArray areas = tsObj.getJSONArray("areas");
+                        if (areas.length() > 0 && areas.getJSONObject(0).has("pops")) {
+                            popsArray = areas.getJSONObject(0).getJSONArray("pops");
+                            break;
+                        }
+                    }
+                }
+                if (popsArray.length() > 0)
+                    break;
+            }
+        } catch (Exception e) {
+            // 何もしない（popsArrayは空のまま）
+        }
         for (int i = 0; i < timeDefinesArray.length(); i++) {
             String time = timeDefinesArray.getString(i);
             String weather = weathersArray.getString(i);
@@ -55,7 +76,8 @@ public class WeatherDataParser {
                     Mintemps = Mintemps + "°C";
                 }
             }
-            weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps));
+            String pops = popsArray.length() > i ? popsArray.getString(i) : "-";
+            weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps, pops));
         }
 
         return weatherInfoList;
@@ -103,6 +125,27 @@ public class WeatherDataParser {
             } catch (Exception e) {
                 // 何もしない（MintempsArrayは空のまま）
             }
+            // ---降水確率取得ロジックを追加---
+            JSONArray popsArray = new JSONArray();
+            try {
+                for (int idx = 0; idx < rootArray.length(); idx++) {
+                    JSONArray tsArr = rootArray.getJSONObject(idx).getJSONArray("timeSeries");
+                    for (int ts = 0; ts < tsArr.length(); ts++) {
+                        JSONObject tsObj = tsArr.getJSONObject(ts);
+                        if (tsObj.has("areas")) {
+                            JSONArray areas = tsObj.getJSONArray("areas");
+                            if (areas.length() > 0 && areas.getJSONObject(0).has("pops")) {
+                                popsArray = areas.getJSONObject(0).getJSONArray("pops");
+                                break;
+                            }
+                        }
+                    }
+                    if (popsArray.length() > 0)
+                        break;
+                }
+            } catch (Exception e) {
+                // 何もしない（popsArrayは空のまま）
+            }
             List<WeatherInfo> weatherInfoList = new ArrayList<>();
             for (int j = 0; j < timeDefinesArray.length(); j++) {
                 String time = timeDefinesArray.getString(j);
@@ -112,14 +155,15 @@ public class WeatherDataParser {
                 // --- MintempsArrayのインデックスを修正: 今日の最低気温も出すためj番目で取得 ---
                 String Mintemps = "-";
                 if (MintempsArray.length() > j && !MintempsArray.isNull(j)) {
-                    Mintemps = MintempsArray.getString(j+1);
+                    Mintemps = MintempsArray.getString(j + 1);
                     if (Mintemps == null || Mintemps.isEmpty()) {
                         Mintemps = "-";
                     } else if (Mintemps.matches("^-?\\d+(\\.\\d+)?$")) {
                         Mintemps = Mintemps + "°C";
                     }
                 }
-                weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps));
+                String pops = popsArray.length() > j ? popsArray.getString(j) : "-";
+                weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps, pops));
             }
             areaWeatherMap.put(areaName, weatherInfoList);
         }
