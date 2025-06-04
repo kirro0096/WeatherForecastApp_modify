@@ -25,70 +25,70 @@ function toggleColumn(colName) {
 </script>
 </head><body>
 <h1>天気予報</h1>
-<div style='margin-bottom:10px;'><label><input type='checkbox' checked onclick="toggleColumn('日付')">日付</label> <label><input type='checkbox' checked onclick="toggleColumn('天気')">天気</label> <label><input type='checkbox' checked onclick="toggleColumn('波')">波</label> <label><input type='checkbox' checked onclick="toggleColumn('風')">風</label> <label><input type='checkbox' checked onclick="toggleColumn('最低気温')">最低気温</label></div>
-<h2>大阪府</h2>
+<div style='margin-bottom:10px;'><label><input type='checkbox' checked onclick="toggleColumn('日付')">日付</label> <label><input type='checkbox' checked onclick="toggleColumn('天気')">天気</label> <label><input type='checkbox' checked onclick="toggleColumn('波')">波</label> <label><input type='checkbox' checked onclick="toggleColumn('風')">風</label> <label><input type='checkbox' checked onclick="toggleColumn('最低気温')">最低気温</label> <label><input type='checkbox' checked onclick="toggleColumn('降水確率')">降水確率</label></div>
+<div style='margin-bottom:15px;'><b>都道府県ジャンプ：</b><a href='#osaka'>大阪府</a> | <a href='#shiga-nanbu'>滋賀県南部</a> | <a href='#shiga-hokubu'>滋賀県北部</a> | <a href='#kyoto-nanbu'>京都府南部</a> | <a href='#kyoto-hokubu'>京都府北部</a> | <a href='#hyogo'>兵庫県</a> | <a href='#nara'>奈良県</a> | <a href='#wakayama'>和歌山県</a></div>
+<h2 id='osaka'>大阪府</h2>
 <table>
-
 <tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨　夜　くもり</td><td>１メートル　後　０．５メートル</td><td>北東の風　やや強く　後　西の風</td><td>20°C</td><td>70%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>０．５メートル　後　１メートル</td><td>西の風　後　南西の風　海上　では　南西の風　やや強く</td><td>18°C</td><td>40%</td></tr>
-<tr><td>2025/06/05</td><td>晴れ</td><td>０．５メートル</td><td>西の風　後　南西の風</td><td>20°C</td><td>10%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>１メートル　後　０．５メートル</td><td>南西の風　後　西の風　海上　では　南西の風　やや強く</td><td>18°C</td><td>0%</td></tr>
+<tr><td>2025/06/05</td><td>晴れ</td><td>０．５メートル</td><td>西の風　後　南西の風</td><td>20°C</td><td>0%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>０．５メートル　後　１メートル</td><td>南西の風</td><td>20°C</td><td>0%</td></tr>
 </table>
-<h2>滋賀県南部</h2>
+<h2 id='shiga-nanbu'>滋賀県南部</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨</td><td>南東の風　やや強く　後　北西の風</td><td>15°C</td><td>80%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>北西の風　琵琶湖　では　北西の風　やや強く</td><td>14°C</td><td>50%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>北西の風　琵琶湖　では　北西の風　やや強く</td><td>14°C</td><td>10%</td></tr>
 <tr><td>2025/06/05</td><td>晴れ</td><td>北西の風</td><td>18°C</td><td>10%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>南東の風</td><td>18°C</td><td>10%</td></tr>
 </table>
-<h2>滋賀県北部</h2>
+<h2 id='shiga-hokubu'>滋賀県北部</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨</td><td>南東の風　やや強く　後　北西の風</td><td>15°C</td><td>80%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>北西の風　琵琶湖　では　北西の風　やや強く</td><td>14°C</td><td>50%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>北西の風　琵琶湖　では　北西の風　やや強く</td><td>14°C</td><td>10%</td></tr>
 <tr><td>2025/06/05</td><td>晴れ</td><td>北西の風</td><td>18°C</td><td>10%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>南東の風</td><td>18°C</td><td>10%</td></tr>
 </table>
-<h2>京都府南部</h2>
+<h2 id='kyoto-nanbu'>京都府南部</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨　夜　くもり</td><td>北東の風</td><td>18°C</td><td>80%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>南西の風</td><td>16°C</td><td>30%</td></tr>
-<tr><td>2025/06/05</td><td>晴れ</td><td>西の風　後　南西の風</td><td>19°C</td><td>10%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ　昼過ぎ　から　夕方　くもり　所により　雨</td><td>南西の風　後　北の風</td><td>16°C</td><td>20%</td></tr>
+<tr><td>2025/06/05</td><td>晴れ</td><td>西の風　後　東の風</td><td>19°C</td><td>0%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>南の風</td><td>20°C</td><td>0%</td></tr>
 </table>
-<h2>京都府北部</h2>
+<h2 id='kyoto-hokubu'>京都府北部</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨　夜　くもり</td><td>１メートル</td><td>南東の風　後　西の風　海上　では　東の風　やや強く</td><td>18°C</td><td>80%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>１メートル</td><td>西の風　後　北西の風　海上　では　西の風　やや強く</td><td>16°C</td><td>30%</td></tr>
-<tr><td>2025/06/05</td><td>晴れ</td><td>１．５メートル　後　１メートル</td><td>西の風　後　南西の風</td><td>19°C</td><td>10%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>１メートル</td><td>北西の風　後　南の風　海上　では　はじめ　西の風　やや強く</td><td>16°C</td><td>20%</td></tr>
+<tr><td>2025/06/05</td><td>晴れ</td><td>１．５メートル　後　１メートル</td><td>西の風　後　北の風　海上　では　はじめ　西の風　やや強く</td><td>19°C</td><td>0%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>０．５メートル</td><td>南の風</td><td>20°C</td><td>0%</td></tr>
 </table>
-<h2>兵庫県</h2>
+<h2 id='hyogo'>兵庫県</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨　夜　くもり</td><td>１．５メートル　後　１メートル</td><td>北東の風　やや強く　後　西の風　海上　では　北東の風　強く</td><td>21°C</td><td>70%</td></tr>
-<tr><td>2025/06/04</td><td>晴れ　明け方　まで　くもり</td><td>１メートル</td><td>西の風　日中　やや強く</td><td>18°C</td><td>20%</td></tr>
-<tr><td>2025/06/05</td><td>晴れ</td><td>０．５メートル</td><td>南西の風</td><td>21°C</td><td>10%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>１メートル</td><td>西の風　やや強く</td><td>18°C</td><td>0%</td></tr>
+<tr><td>2025/06/05</td><td>晴れ</td><td>０．５メートル</td><td>西の風　後　南西の風</td><td>21°C</td><td>0%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>０．５メートル　後　１メートル</td><td>南の風　後　やや強く</td><td>21°C</td><td>0%</td></tr>
 </table>
-<h2>奈良県</h2>
+<h2 id='nara'>奈良県</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨　所により　夜のはじめ頃　まで　雷　を伴う</td><td>東の風</td><td>17°C</td><td>80%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>南西の風　日中　西の風</td><td>15°C</td><td>50%</td></tr>
-<tr><td>2025/06/05</td><td>晴れ</td><td>南西の風</td><td>18°C</td><td>10%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>西の風</td><td>15°C</td><td>0%</td></tr>
+<tr><td>2025/06/05</td><td>晴れ</td><td>南の風　後　北の風</td><td>18°C</td><td>0%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>西の風</td><td>19°C</td><td>0%</td></tr>
 </table>
-<h2>和歌山県</h2>
+<h2 id='wakayama'>和歌山県</h2>
 <table>
 <tr><th>日付</th><th>天気</th><th>波</th><th>風</th><th>最低気温</th><th>降水確率</th></tr>
-<tr><td>2025/06/03</td><td>雨　所により　雷　を伴う</td><td>１．５メートル</td><td>北東の風　後　北西の風　海上　では　東の風　やや強く</td><td>18°C</td><td>70%</td></tr>
-<tr><td>2025/06/04</td><td>くもり　昼前　から　晴れ</td><td>１．５メートル　後　１メートル</td><td>北西の風</td><td>17°C</td><td>50%</td></tr>
-<tr><td>2025/06/05</td><td>晴れ</td><td>１メートル</td><td>西の風　後　南西の風</td><td>18°C</td><td>10%</td></tr>
+<tr><td>2025/06/04</td><td>晴れ</td><td>１メートル</td><td>西の風</td><td>17°C</td><td>0%</td></tr>
+<tr><td>2025/06/05</td><td>晴れ</td><td>１メートル</td><td>東の風　日中　北西の風</td><td>19°C</td><td>0%</td></tr>
+<tr><td>2025/06/06</td><td>晴れ　時々　くもり</td><td>１メートル　後　１．５メートル</td><td>南西の風</td><td>19°C</td><td>0%</td></tr>
 </table>
 <h2>最高気温情報</h2>
 <table>
 <tr><th>日付</th><th>国・都市</th><th>最高気温(°C)</th></tr>
-<tr><td>2025-06-03</td><td>日本（東京）</td><td>24.6</td></tr>
-<tr><td>2025-06-03</td><td>アメリカ（ニューヨーク）</td><td>25.1</td></tr>
-<tr><td>2025-06-03</td><td>イギリス（ロンドン）</td><td>25.1</td></tr>
-<tr><td>2025-06-03</td><td>オーストラリア（シドニー）</td><td>23.8</td></tr>
+<tr><td>2025-06-04</td><td>日本（東京）</td><td>25.4</td></tr>
+<tr><td>2025-06-03</td><td>アメリカ（ニューヨーク）</td><td>24.8</td></tr>
+<tr><td>2025-06-04</td><td>イギリス（ロンドン）</td><td>25.4</td></tr>
+<tr><td>2025-06-04</td><td>オーストラリア（シドニー）</td><td>25.4</td></tr>
 </table>
 </body></html>
