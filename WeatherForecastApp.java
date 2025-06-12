@@ -77,6 +77,7 @@ public class WeatherForecastApp {
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('波')\">波</label> "
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('風')\">風</label> "
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('最低気温')\">最低気温</label> "
+                                + "<label><input type='checkbox' checked onclick=\"toggleColumn('最高気温')\">最高気温</label> "
                                 + "<label><input type='checkbox' checked onclick=\"toggleColumn('降水確率')\">降水確率</label>"
                                 + "</div>\n");
                 // 県名ジャンプ用目次リンクを追加
