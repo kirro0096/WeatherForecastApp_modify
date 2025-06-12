@@ -19,27 +19,32 @@ public class WeatherDataParser {
         JSONArray weathersArray = areaObject.getJSONArray("weathers");
         JSONArray windsArray = areaObject.has("winds") ? areaObject.getJSONArray("winds") : new JSONArray();
         JSONArray wavesArray = areaObject.has("waves") ? areaObject.getJSONArray("waves") : new JSONArray();
-        // ---最低気温取得ロジックを修正---
+        // ---最低気温・最高気温取得ロジックを修正---
         JSONArray MintempsArray = new JSONArray();
+        JSONArray MaxtempsArray = new JSONArray();
         try {
-            // 2つ目のtimeSeriesからtempsMinを探す
+            // 2つ目のtimeSeriesからtempsMin/tempsMaxを探す
             for (int idx = 0; idx < rootArray.length(); idx++) {
                 JSONArray tsArr = rootArray.getJSONObject(idx).getJSONArray("timeSeries");
                 for (int ts = 0; ts < tsArr.length(); ts++) {
                     JSONObject tsObj = tsArr.getJSONObject(ts);
                     if (tsObj.has("areas")) {
                         JSONArray areas = tsObj.getJSONArray("areas");
-                        if (areas.length() > 0 && areas.getJSONObject(0).has("tempsMin")) {
-                            MintempsArray = areas.getJSONObject(0).getJSONArray("tempsMin");
-                            break;
+                        if (areas.length() > 0) {
+                            if (areas.getJSONObject(0).has("tempsMin")) {
+                                MintempsArray = areas.getJSONObject(0).getJSONArray("tempsMin");
+                            }
+                            if (areas.getJSONObject(0).has("tempsMax")) {
+                                MaxtempsArray = areas.getJSONObject(0).getJSONArray("tempsMax");
+                            }
                         }
                     }
                 }
-                if (MintempsArray.length() > 0)
+                if (MintempsArray.length() > 0 || MaxtempsArray.length() > 0)
                     break;
             }
         } catch (Exception e) {
-            // 何もしない（MintempsArrayは空のまま）
+            // 何もしない（MintempsArray, MaxtempsArrayは空のまま）
         }
         // ---降水確率取得ロジックを追加---
         JSONArray popsArray = new JSONArray();
@@ -69,15 +74,24 @@ public class WeatherDataParser {
             String windds = windsArray.length() > i ? windsArray.getString(i) : "-";
             String Mintemps = "-";
             if (MintempsArray.length() > i && !MintempsArray.isNull(i)) {
-                Mintemps = MintempsArray.getString(i + 1);
+                Mintemps = MintempsArray.getString(i+1);
                 if (Mintemps == null || Mintemps.isEmpty()) {
                     Mintemps = "-";
                 } else if (Mintemps.matches("^-?\\d+(\\.\\d+)?$")) {
                     Mintemps = Mintemps + "°C";
                 }
             }
+            String Maxtemps = "-";
+            if (MaxtempsArray.length() > i && !MaxtempsArray.isNull(i)) {
+                Maxtemps = MaxtempsArray.getString(i+1);
+                if (Maxtemps == null || Maxtemps.isEmpty()) {
+                    Maxtemps = "-";
+                } else if (Maxtemps.matches("^-?\\d+(\\.\\d+)?$")) {
+                    Maxtemps = Maxtemps + "°C";
+                }
+            }
             String pops = popsArray.length() > i ? popsArray.getString(i) : "-";
-            weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps, pops));
+            weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps, Maxtemps, pops));
         }
 
         return weatherInfoList;
@@ -103,27 +117,32 @@ public class WeatherDataParser {
             JSONArray weathersArray = areaObject.getJSONArray("weathers");
             JSONArray windsArray = areaObject.has("winds") ? areaObject.getJSONArray("winds") : new JSONArray();
             JSONArray wavesArray = areaObject.has("waves") ? areaObject.getJSONArray("waves") : new JSONArray();
-            // ---最低気温取得ロジックを修正---
+            // ---最低気温・最高気温取得ロジックを修正---
             JSONArray MintempsArray = new JSONArray();
+            JSONArray MaxtempsArray = new JSONArray();
             try {
-                // 2つ目のtimeSeriesからtempsMinを探す
+                // 2つ目のtimeSeriesからtempsMin/tempsMaxを探す
                 for (int idx = 0; idx < rootArray.length(); idx++) {
                     JSONArray tsArr = rootArray.getJSONObject(idx).getJSONArray("timeSeries");
                     for (int ts = 0; ts < tsArr.length(); ts++) {
                         JSONObject tsObj = tsArr.getJSONObject(ts);
                         if (tsObj.has("areas")) {
                             JSONArray areas = tsObj.getJSONArray("areas");
-                            if (areas.length() > 0 && areas.getJSONObject(0).has("tempsMin")) {
-                                MintempsArray = areas.getJSONObject(0).getJSONArray("tempsMin");
-                                break;
+                            if (areas.length() > 0) {
+                                if (areas.getJSONObject(0).has("tempsMin")) {
+                                    MintempsArray = areas.getJSONObject(0).getJSONArray("tempsMin");
+                                }
+                                if (areas.getJSONObject(0).has("tempsMax")) {
+                                    MaxtempsArray = areas.getJSONObject(0).getJSONArray("tempsMax");
+                                }
                             }
                         }
                     }
-                    if (MintempsArray.length() > 0)
+                    if (MintempsArray.length() > 0 || MaxtempsArray.length() > 0)
                         break;
                 }
             } catch (Exception e) {
-                // 何もしない（MintempsArrayは空のまま）
+                // 何もしない（MintempsArray, MaxtempsArrayは空のまま）
             }
             // ---降水確率取得ロジックを追加---
             JSONArray popsArray = new JSONArray();
@@ -152,18 +171,27 @@ public class WeatherDataParser {
                 String weather = weathersArray.getString(j);
                 String waves = wavesArray.length() > j ? wavesArray.getString(j) : "-";
                 String windds = windsArray.length() > j ? windsArray.getString(j) : "-";
-                // --- MintempsArrayのインデックスを修正: 今日の最低気温も出すためj番目で取得 ---
+                // --- MintempsArray, MaxtempsArrayのインデックスを修正 ---
                 String Mintemps = "-";
                 if (MintempsArray.length() > j && !MintempsArray.isNull(j)) {
-                    Mintemps = MintempsArray.getString(j + 1);
+                    Mintemps = MintempsArray.getString(j+1);
                     if (Mintemps == null || Mintemps.isEmpty()) {
                         Mintemps = "-";
                     } else if (Mintemps.matches("^-?\\d+(\\.\\d+)?$")) {
                         Mintemps = Mintemps + "°C";
                     }
                 }
+                String Maxtemps = "-";
+                if (MaxtempsArray.length() > j && !MaxtempsArray.isNull(j)) {
+                    Maxtemps = MaxtempsArray.getString(j+1);
+                    if (Maxtemps == null || Maxtemps.isEmpty()) {
+                        Maxtemps = "-";
+                    } else if (Maxtemps.matches("^-?\\d+(\\.\\d+)?$")) {
+                        Maxtemps = Maxtemps + "°C";
+                    }
+                }
                 String pops = popsArray.length() > j ? popsArray.getString(j) : "-";
-                weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps, pops));
+                weatherInfoList.add(new WeatherInfo(time, weather, waves, windds, Mintemps, Maxtemps, pops));
             }
             areaWeatherMap.put(areaName, weatherInfoList);
         }
